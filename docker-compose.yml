@@ -11,4 +11,4 @@ services:
         - RABBITMQ_DEFAULT_PASS=password
     producer:
         container_name: message-producer
-        
+        build: ./producer        
