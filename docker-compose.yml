@@ -1,0 +1,14 @@
+version: '2'
+services:
+    rabbit:
+        container_name: rabbit-test
+        hostname: rabbit-node-1
+        image: rabbitmq:management-alpine
+        ports:
+        - 8080:15672
+        environment:
+        - RABBITMQ_DEFAULT_USER=admin
+        - RABBITMQ_DEFAULT_PASS=password
+    producer:
+        container_name: message-producer
+        
