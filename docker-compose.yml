@@ -1,11 +1,5 @@
 version: '2'
 services:
-    rabbit:
-        container_name: rabbit-test
-        hostname: rabbit-node-1
-        image: rabbitmq:management-alpine
-        ports:
-        - 15672:15672
     producer:
         container_name: message-producer
         build: ./producer
@@ -15,3 +9,33 @@ services:
         - 5000:80
         environment: 
         - RABBITMQ_URI=rabbit
+        - RABBITMQ_EXCHANGE=test
+        - RABBITMQ_ROUTINGKEY=test.tb
+    consumer1:
+        container_name: message-consumer1
+        build: ./consumer
+        depends_on:
+        - rabbit
+        links:
+        - rabbit:rabbit
+        environment: 
+        - RABBITMQ_URI=rabbit
+        - RABBITMQ_EXCHANGE=test
+        - RABBITMQ_BINDINGKEY=test.tb
+    consumer2:
+        container_name: message-consumer2
+        build: ./consumer
+        depends_on:
+        - rabbit
+        links:
+        - rabbit:rabbit
+        environment: 
+        - RABBITMQ_URI=rabbit
+        - RABBITMQ_EXCHANGE=test
+        - RABBITMQ_BINDINGKEY=test.tb
+    rabbit:
+        container_name: rabbit-test
+        hostname: rabbit-node-1
+        image: rabbitmq:management-alpine
+        ports:
+        - 15672:15672

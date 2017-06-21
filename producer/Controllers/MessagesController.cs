@@ -15,10 +15,15 @@ namespace producer.Controllers
     public class MessagesController : Controller
     {
         private ILogger logger;
+        private string exchange;
+        private string routingKey;
 
         public MessagesController(ILoggerFactory loggerFactory)
         {
             logger = loggerFactory.CreateLogger(nameof(MessagesController));
+
+            exchange = Environment.GetEnvironmentVariable("RABBITMQ_EXCHANGE");
+            routingKey = Environment.GetEnvironmentVariable("RABBITMQ_ROUTINGKEY");
         }
 
         // GET api/values
@@ -30,10 +35,9 @@ namespace producer.Controllers
 
         // POST api/messages
         [HttpPost]
-        [Route("{exchange}/{queue}/{routingKey}")]
-        public void Post(string exchange, string queue, string routingKey, [FromBody]string message)
+        public void Post([FromBody]string message)
         {
-            logger.LogDebug($"Queuing message for {exchange}:{queue}:{routingKey}");
+            logger.LogDebug($"Queuing message for {exchange}:{routingKey}");
             logger.LogDebug($"Message is {message}.");
 
             try
