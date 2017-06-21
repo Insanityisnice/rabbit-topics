@@ -1,0 +1,47 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Rabbit-Topic",
+		"_postman_id": "78e342ae-206f-de24-df69-3fd2e00b0dfd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "producer",
+			"description": "",
+			"item": []
+		},
+		{
+			"name": "GET /api/messages",
+			"request": {
+				"url": "http://{{producer-uri}}:{{producer-port}}/api/messages",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/messages/exchange1/queue1/key1",
+			"request": {
+				"url": "http://{{producer-uri}}:{{producer-port}}/api/messages/test/topic/my.tb",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\"{'say':'Hello World'}\""
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
