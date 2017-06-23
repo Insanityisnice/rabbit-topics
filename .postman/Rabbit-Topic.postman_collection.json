@@ -24,9 +24,9 @@
 			"response": []
 		},
 		{
-			"name": "POST /api/messages/exchange1/queue1/key1",
+			"name": "POST /api/messages",
 			"request": {
-				"url": "http://{{producer-uri}}:{{producer-port}}/api/messages/test/topic/my.tb",
+				"url": "http://{{producer-uri}}:{{producer-port}}/api/messages",
 				"method": "POST",
 				"header": [
 					{
