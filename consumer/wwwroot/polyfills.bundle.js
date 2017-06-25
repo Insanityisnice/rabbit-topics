@@ -1,6 +1,6 @@
 webpackJsonp([0],{
 
-/***/ "../../../../../wwwroot/polyfills.ts":
+/***/ "../../../../../src/polyfills.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4771,7 +4771,7 @@ module.exports = g;
 /***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("../../../../../wwwroot/polyfills.ts");
+module.exports = __webpack_require__("../../../../../src/polyfills.ts");
 
 
 /***/ })
