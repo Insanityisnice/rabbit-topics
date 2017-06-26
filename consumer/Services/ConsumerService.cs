@@ -1,25 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
+using consumer.Models;
 
-namespace consumer.Controllers
+namespace consumer.Services
 {
     public class ConsumerService
     {
         private IDictionary<string, Consumer> consumers;
 
-        public static ConsumerService Instance;
-
-        static ConsumerService()
-        {
-            Instance = new ConsumerService();
-        }
-
         private ConsumerService()
         {
-            consumers = new Dictionary<string, Consumer>();
+            consumers = new ConcurrentDictionary<string, Consumer>();
         }
 
-        public object this[string index]
+        public Consumer this[string index]
         {
             get 
             {
@@ -29,23 +24,17 @@ namespace consumer.Controllers
             }
         }
 
-        public void AddConsumer(string name, string exchange, string bindingKey)
+        public IEnumerable<Consumer> Consumers()
         {
-            if (String.IsNullOrWhiteSpace(name)) throw new ArgumentException("", nameof(name));
-            if (consumers.ContainsKey(name)) throw new ArgumentException(nameof(name), $"The consumer named {name} already exists.");
-            if (String.IsNullOrWhiteSpace(exchange)) throw new ArgumentException("", nameof(exchange));
-            if (String.IsNullOrWhiteSpace(bindingKey)) throw new ArgumentException("", nameof(bindingKey));
-            
-            consumers.Add(name, new Consumer(exchange, bindingKey));
+            return consumers.Values;
         }
-    }
 
-    public class Consumer
-    {
-        private IList<string> messages = new List<string>();
-
-        public Consumer(string exchange, string bindingKey)
+        public void AddConsumer(Consumer consumer)
         {
+            if (consumer == null) throw new ArgumentNullException(nameof(consumer));
+            
+            consumer.Start();
+            consumers.Add(consumer.Name, consumer);
         }
     }
 }
