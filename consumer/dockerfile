@@ -1,13 +1,19 @@
 FROM microsoft/aspnetcore-build
 WORKDIR /app
 
-COPY . .
-
-RUN npm install
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+RUN npm install -g @angular/cli
+RUN npm install -g typescript
+RUN npm install -g typings
 
 ENV RABBITMQ_USERNAME=guest
 ENV RABBITMQ_PASSWORD=guest
+
+COPY . .
+
+RUN npm install
+RUN npm build
+
+RUN dotnet restore
+RUN dotnet publish -c Release -o out
 
 ENTRYPOINT ["dotnet", "out/consumer.dll"]

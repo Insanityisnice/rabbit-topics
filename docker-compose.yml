@@ -11,17 +11,15 @@ services:
         - RABBITMQ_URI=rabbit
         - RABBITMQ_EXCHANGE=test
         - RABBITMQ_ROUTINGKEY=test.tb
-    # consumer:
-    #     container_name: message-consumer
-    #     build: ./consumer
-    #     depends_on:
-    #     - rabbit
-    #     links:
-    #     - rabbit:rabbit
-    #     environment: 
-    #     - RABBITMQ_URI=rabbit
-    #     - RABBITMQ_EXCHANGE=test
-    #     - RABBITMQ_BINDINGKEY=test.tb
+    consumer:
+        container_name: message-consumer
+        build: ./consumer
+        depends_on:
+        - rabbit
+        links:
+        - rabbit:rabbit
+        environment: 
+        - RABBITMQ_URI=rabbit
     rabbit:
         container_name: rabbit-test
         hostname: rabbit-node-1
