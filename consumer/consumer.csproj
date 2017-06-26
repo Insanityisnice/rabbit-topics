@@ -17,8 +17,4 @@
     <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
   </ItemGroup>
 
-  <Target Name="MyPreCompileTarget" BeforeTargets="Build">
-    <Exec Command="ng build" />
-  </Target>
-
 </Project>

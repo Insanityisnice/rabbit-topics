@@ -18,6 +18,9 @@ namespace consumer.Controllers
 
         public MessagesController(ILoggerFactory loggerFactory, ConsumerService consumerService)
         {
+            if (loggerFactory == null) throw new ArgumentNullException(nameof(loggerFactory));
+            if (consumerService == null) throw new ArgumentNullException(nameof(consumerService));
+
             this.logger = loggerFactory.CreateLogger(nameof(MessagesController));
             this.consumerService = consumerService;
         }
@@ -26,9 +29,12 @@ namespace consumer.Controllers
         [HttpGet]
         public IEnumerable<string> Get(string consumerName)
         {
-            if(string.IsNullOrWhiteSpace(consumerName)) throw new ArgumentException($"The argument {nameof(consumerName)} is required.", nameof(consumerName));
+            using (var scope = logger.BeginScope("GET messages"))
+            {
+                if(string.IsNullOrWhiteSpace(consumerName)) throw new ArgumentException($"The argument {nameof(consumerName)} is required.", nameof(consumerName));
 
-            return consumerService[consumerName].Messages;
+                return consumerService[consumerName].Messages;
+            }
         }
     }
 }

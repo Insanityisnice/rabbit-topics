@@ -4,6 +4,8 @@
     "dockerfile.*": "dockerfile"
     },
     "files.exclude": {
+        "**/bin/": true,
+        "**/obj/": true,
         "**/consumer/wwwroot/app/**/*.map": true,
         "**/consumer/wwwroot/app/**/*.js": true,
         "**/node_modules": true

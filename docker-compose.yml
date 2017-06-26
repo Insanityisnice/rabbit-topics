@@ -9,8 +9,6 @@ services:
         - 5000:80
         environment: 
         - RABBITMQ_URI=rabbit
-        - RABBITMQ_EXCHANGE=test
-        - RABBITMQ_ROUTINGKEY=test.tb
     consumer:
         container_name: message-consumer
         build: ./consumer
