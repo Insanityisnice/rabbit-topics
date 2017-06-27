@@ -16,6 +16,8 @@ services:
         - rabbit
         links:
         - rabbit:rabbit
+        ports:
+        - 5001:80
         environment: 
         - RABBITMQ_URI=rabbit
     rabbit:

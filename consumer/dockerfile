@@ -1,12 +1,12 @@
 FROM microsoft/aspnetcore-build
 WORKDIR /app
 
-ENV RABBITMQ_USERNAME=guest
-ENV RABBITMQ_PASSWORD=guest
-
 COPY . .
 
 RUN dotnet restore
 RUN dotnet publish -c Release -o out
+
+ENV RABBITMQ_USERNAME=guest
+ENV RABBITMQ_PASSWORD=guest
 
 ENTRYPOINT ["dotnet", "out/consumer.dll"]

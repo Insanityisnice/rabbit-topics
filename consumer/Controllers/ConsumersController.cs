@@ -22,7 +22,6 @@ namespace consumer.Controllers
             this.consumerService = consumerService;
         }
 
-        // GET api/values
         [HttpGet]
         public IEnumerable<object> Get()
         {
@@ -50,6 +49,18 @@ namespace consumer.Controllers
                 Exchange = consumer.Exchange,
                 BindingKey = consumer.BindingKey
             };
+        }
+
+        [HttpGet]
+        [Route("{consumerName}/messages")]
+        public IEnumerable<string> Get(string consumerName)
+        {
+            using (var scope = logger.BeginScope("GET messages"))
+            {
+                if(string.IsNullOrWhiteSpace(consumerName)) throw new ArgumentException($"The argument {nameof(consumerName)} is required.", nameof(consumerName));
+
+                return consumerService[consumerName].Messages;
+            }
         }
     }
 }

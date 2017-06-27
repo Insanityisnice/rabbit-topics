@@ -13,8 +13,9 @@ namespace consumer.Services
         private ILoggerFactory factory; //Keeping this to give to the consumer.
         private IDictionary<string, Consumer> consumers;
 
-        private ConsumerService(ILoggerFactory loggerFactory)
+        public ConsumerService(ILoggerFactory loggerFactory)
         {
+            factory = loggerFactory;
             logger = loggerFactory.CreateLogger(nameof(ConsumerService));
             consumers = new ConcurrentDictionary<string, Consumer>();
         }

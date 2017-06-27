@@ -15,15 +15,10 @@ namespace producer.Controllers
     public class MessagesController : Controller
     {
         private ILogger logger;
-        private string exchange;
-        private string routingKey;
 
         public MessagesController(ILoggerFactory loggerFactory)
         {
             logger = loggerFactory.CreateLogger(nameof(MessagesController));
-
-            exchange = Environment.GetEnvironmentVariable("RABBITMQ_EXCHANGE");
-            routingKey = Environment.GetEnvironmentVariable("RABBITMQ_ROUTINGKEY");
         }
 
         // GET api/values
@@ -35,40 +30,44 @@ namespace producer.Controllers
 
         // POST api/messages
         [HttpPost]
-        public void Post([FromBody]string message)
+        [Route("{exchange}/{routingKey}")]
+        public void Post(string exchange, string routingKey, [FromBody]string message)
         {
-            logger.LogDebug($"Queuing message for {exchange}:{routingKey}");
-            logger.LogDebug($"Message is {message}.");
-
-            try
+            using (var source = logger.BeginScope($"Post {exchange}:{routingKey}"))
             {
-                var factory = new ConnectionFactory()
-                {
-                     HostName = Environment.GetEnvironmentVariable("RABBITMQ_URI"),
-                     UserName = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME"),
-                     Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"),
-                };
-                using (var connection = factory.CreateConnection())
-                {
-                    using (var channel = connection.CreateModel())
-                    {
-                        channel.ExchangeDeclare(exchange: exchange, type: "topic");
-                        
-                        var body = Encoding.UTF8.GetBytes(message);
+                logger.LogDebug($"Queuing message for {exchange}:{routingKey}");
+                logger.LogDebug($"Message is {message}.");
 
-                        channel.BasicPublish(exchange: exchange,
-                                        routingKey: routingKey,
-                                        basicProperties: null,
-                                        body: body);
-                        
-                        logger.LogDebug($"Sent '{exchange}' -'{routingKey}':'{message}'");
+                try
+                {
+                    var factory = new ConnectionFactory()
+                    {
+                        HostName = Environment.GetEnvironmentVariable("RABBITMQ_URI"),
+                        UserName = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME"),
+                        Password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"),
+                    };
+                    using (var connection = factory.CreateConnection())
+                    {
+                        using (var channel = connection.CreateModel())
+                        {
+                            channel.ExchangeDeclare(exchange: exchange, type: "topic");
+                            
+                            var body = Encoding.UTF8.GetBytes(message);
+
+                            channel.BasicPublish(exchange: exchange,
+                                            routingKey: routingKey,
+                                            basicProperties: null,
+                                            body: body);
+                            
+                            logger.LogDebug($"Sent '{exchange}' -'{routingKey}':'{message}'");
+                        }
                     }
                 }
-            }
-            catch(Exception ex)
-            {
-                logger.LogError(new EventId(1), ex, ex.Message);
-                throw ex;
+                catch(Exception ex)
+                {
+                    logger.LogError(new EventId(1), ex, ex.Message);
+                    throw ex;
+                }
             }
         }
     }

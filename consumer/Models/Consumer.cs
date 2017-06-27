@@ -10,13 +10,13 @@ namespace consumer.Models
 {
     public class Consumer
     {
-        public string Name { get; private set; }
-        public string Exchange  { get; private set; }
-        public string BindingKey  { get; private set; }
-        
         private ILogger logger;
         private IList<string> messages = new List<string>();
         private BackgroundWorker bgWorker;
+
+        public string Name { get; private set; }
+        public string Exchange  { get; private set; }
+        public string BindingKey  { get; private set; }
 
         public IEnumerable<string> Messages
         {
