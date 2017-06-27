@@ -20,6 +20,18 @@ services:
         - 5001:80
         environment: 
         - RABBITMQ_URI=rabbit
+    portal:
+        container_name: rabbit-portal
+        build: ./portal
+        depends-on:
+        - rabbit
+        - consumer
+        - producer
+        links:
+        - consumer:consumer
+        - producer:producer
+        ports:
+        - 8080:4200
     rabbit:
         container_name: rabbit-test
         hostname: rabbit-node-1
