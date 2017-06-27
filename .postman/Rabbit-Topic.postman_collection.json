@@ -8,40 +8,107 @@
 	},
 	"item": [
 		{
+			"name": "consumer",
+			"description": "",
+			"item": [
+				{
+					"name": "GET /api/consumers",
+					"request": {
+						"url": "http://{{consumer-uri}}:{{consumer-port}}/api/consumers",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{'say':'Hello World'}\""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/consumers",
+					"request": {
+						"url": "http://{{consumer-uri}}:{{consumer-port}}/api/consumers",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Consumer1\",\n\t\"exchange\": \"test\",\n\t\"bindingKey\": \"test.tb\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/consumers/Consumer1/messages",
+					"request": {
+						"url": "http://{{consumer-uri}}:{{consumer-port}}/api/consumers/Consumer1/messages",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{'say':'Hello World'}\""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "producer",
 			"description": "",
-			"item": []
-		},
-		{
-			"name": "GET /api/messages",
-			"request": {
-				"url": "http://{{producer-uri}}:{{producer-port}}/api/messages",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "POST /api/messages",
-			"request": {
-				"url": "http://{{producer-uri}}:{{producer-port}}/api/messages",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+			"item": [
+				{
+					"name": "GET /api/messages",
+					"request": {
+						"url": "http://{{producer-uri}}:{{producer-port}}/api/messages",
+						"method": "GET",
+						"header": [],
+						"body": {},
 						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "\"{'say':'Hello World'}\""
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"name": "POST /api/messages",
+					"request": {
+						"url": "http://{{producer-uri}}:{{producer-port}}/api/messages/test/test.tb",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{'say':'Hello World'}\""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
