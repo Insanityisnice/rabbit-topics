@@ -1,0 +1,6 @@
+<div *ngIf="consumers.length > 0" class="consumer">
+</div>
+<div *ngIf="consumers.length === 0">
+    <p>There are currently no consumers to display.  Add a new consumer to start listening to a queue.</p>
+</div>
+<add-consumer></add-consumer>

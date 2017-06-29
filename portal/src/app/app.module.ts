@@ -1,20 +1,39 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+
+import { SettingsService } from '../settings/settings.service';
+import { ConsumersService } from './consumer/consumers.service';
 
 import { AppComponent } from './app.component';
+import { ConsumersComponent } from './consumer/consumers.component';
+import { AddConsumerComponent } from './consumer/add.consumer.component';
 
-import { ConsumersService } from './consumer/consumers.service';
+export function initialize(settingsService: SettingsService) {
+  console.log("Loading settings...");
+  return () => settingsService.load();
+}
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ConsumersComponent,
+    AddConsumerComponent
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    HttpModule,
+    FormsModule
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initialize,
+      deps: [SettingsService, Http],
+      multi: true
+    },
+    SettingsService,
     ConsumersService
   ],
   bootstrap: [AppComponent]

@@ -1,0 +1,12 @@
+<div class="add.consumer">
+    <form (submit)="addConsumer($event)">
+        <label>Consumer Name</label>
+        <input [(ngModel)]="consumerName" (keyup.enter)="consumerName=''" class="textfield" name="consumerName"><br/><br/>
+        <label>Exchange Name</label>
+        <input [(ngModel)]="exchange" (keyup.enter)="exchange=''" class="textfield" name="exchange"><br/><br/>
+        <label>Binding Key</label>
+        <input [(ngModel)]="bindingKey" (keyup.enter)="bindingKey=''" class="textfield" name="bindingKey"><br/><br/>
+
+        <button  type="submit" [disabled]="validateConsumer()">Add Todo</button>
+    </form>
+</div>
