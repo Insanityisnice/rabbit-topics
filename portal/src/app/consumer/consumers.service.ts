@@ -5,6 +5,8 @@ import 'rxjs/add/operator/toPromise';
 
 import { SettingsService } from '../../settings/settings.service'
 
+import { Consumer } from '../../models/consumer'
+
 @Injectable()
 export class ConsumersService {
 
@@ -31,8 +33,13 @@ export class ConsumersService {
                    .subscribe(res => console.log(res), this.handleError, () => console.log("Customer added."));
     }
     
-    getConsumers() {
-        var requestOptions = new RequestOptions();
+    getConsumers() :Promise<Array<Consumer>> {
+        var requestOptions = new RequestOptions({
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            })
+        });
 
         console.log('Getting messages.');
         return this.http
@@ -42,10 +49,15 @@ export class ConsumersService {
                    .catch(this.handleError);
     }
 
-    getConsumerMessages(consumer: string) {
-        var requestOptions = new RequestOptions();
+    getConsumerMessages(consumer: string): Promise<Array<string>> {
+        var requestOptions = new RequestOptions({
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            })
+        });
 
-        console.log('Getting messages.');
+        console.log('Getting messages for ' + consumer);
         return this.http
                    .get(this.url + '/' + consumer + '/' + this.messagesPath, requestOptions)
                    .toPromise()

@@ -9,6 +9,7 @@ import { ConsumersService } from './consumer/consumers.service';
 import { AppComponent } from './app.component';
 import { ConsumersComponent } from './consumer/consumers.component';
 import { AddConsumerComponent } from './consumer/add.consumer.component';
+import { ConsumerComponent } from './consumer/consumer.component';
 
 export function initialize(settingsService: SettingsService) {
   console.log("Loading settings...");
@@ -19,7 +20,8 @@ export function initialize(settingsService: SettingsService) {
   declarations: [
     AppComponent,
     ConsumersComponent,
-    AddConsumerComponent
+    AddConsumerComponent,
+    ConsumerComponent
   ],
   imports: [
     BrowserModule,
@@ -38,4 +40,5 @@ export function initialize(settingsService: SettingsService) {
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
